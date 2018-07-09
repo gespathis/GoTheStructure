@@ -6,6 +6,13 @@ import (
 	"sort"
 	"structure/logers"
 	"structure/models"
+	"sync"
+	"time"
+)
+
+var (
+	counter = 0
+	lock    sync.Mutex
 )
 
 func main() {
@@ -58,4 +65,30 @@ func main() {
 	worst := make([]int, 5)
 	copy(worst, scores[3:6])
 	fmt.Println(worst)
+
+	for i := 0; i < 20; i++ {
+		go incr()
+	}
+	time.Sleep(time.Millisecond * 10)
+
+	c := make(chan int)
+
+	for i := 0; i < 5; i++ {
+		batlle := &models.Battle{ID: i}
+		go batlle.Fight(c)
+	}
+
+	time.Sleep(time.Millisecond * 1000)
+
+	for i := 0; i < 5; i++ {
+		c <- rand.Int()
+		time.Sleep(time.Millisecond * 500)
+	}
+}
+
+func incr() {
+	lock.Lock()
+	defer lock.Unlock()
+	counter++
+	fmt.Println(counter)
 }
