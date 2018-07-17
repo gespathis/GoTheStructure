@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"math/rand"
 	"sort"
-	"structure/logers"
-	"structure/models"
+	"GoTheStructure/logers"
+	"GoTheStructure/models"
 	"sync"
 	"time"
 )
