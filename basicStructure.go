@@ -1,11 +1,11 @@
 package main
 
 import (
+	"GoTheStructure/logers"
+	"GoTheStructure/models"
 	"fmt"
 	"math/rand"
 	"sort"
-	"GoTheStructure/logers"
-	"GoTheStructure/models"
 	"sync"
 	"time"
 )
@@ -26,8 +26,8 @@ func main() {
 	fmt.Println(result)
 
 	songoku.Love = 5000000
-	songoku.Power = 10000
-	songoku.Saiyan.Father = &models.Saiyan{Name: "bardock", Power: 1000}
+	songoku.Strength = 10000
+	songoku.Saiyan.Father = &models.Saiyan{Name: "bardock", Strength: 1000}
 	songoku.Human.Mother = &models.Human{Name: "helena", Love: 100000000}
 	songoku.Human.Name = "songoku"
 	songoku.Saiyan.Name = "kakarot"
@@ -36,11 +36,11 @@ func main() {
 	songoku.Friends = append(songoku.Friends, &models.Human{Name: "gohan"})
 	songoku.Enemies = make(map[string]*models.Person)
 
-	songoku.Enemies["freizer"] = &models.Person{Saiyan: &models.Saiyan{Name: "freizer", Power: 99999}}
+	songoku.Enemies["freizer"] = &models.Person{Saiyan: &models.Saiyan{Name: "freizer", Strength: 99999}}
 
 	test := songoku.Enemies["freizer"]
 
-	fmt.Println(test.Power)
+	fmt.Println(test.Strength)
 
 	if songoku.Human.Mother != nil {
 		fmt.Println(songoku.Human.Mother.Name)
@@ -75,7 +75,7 @@ func main() {
 
 	for i := 0; i < 5; i++ {
 		batlle := &models.Battle{ID: i}
-		go batlle.Fight(c)
+		go batlle.Sparring(c)
 	}
 
 	time.Sleep(time.Millisecond * 1000)
