@@ -18,13 +18,15 @@ var (
 func main() {
 
 	songoku := &models.Person{Human: new(models.Human), Saiyan: new(models.Saiyan)}
+	krilin := &models.Person{Human: new(models.Human), Saiyan: new(models.Saiyan)}
 	songoku.Logger = new(logers.ConsoleLogger)
 
 	var result bool
 	result = songoku.Logger.Log("i am concrete")
 
 	fmt.Println(result)
-
+	krilin.Strength = 500
+	krilin.Human.Name = "krilin"
 	songoku.Love = 5000000
 	songoku.Strength = 10000
 	songoku.Saiyan.Father = &models.Saiyan{Name: "bardock", Strength: 1000}
@@ -50,11 +52,11 @@ func main() {
 
 	copy(tempFrients, songoku.Friends[4:])
 
-	fmt.Println(songoku.Human.Love)
-	fmt.Println(songoku.Human.Name)
-	fmt.Println(songoku.Human.Friends)
-	fmt.Println(songoku.Human.Friends[5])
-	fmt.Println(tempFrients)
+	// fmt.Println(songoku.Human.Love)
+	// fmt.Println(songoku.Human.Name)
+	// fmt.Println(songoku.Human.Friends)
+	// fmt.Println(songoku.Human.Friends[5])
+	// fmt.Println(tempFrients)
 
 	scores := make([]int, 100)
 
@@ -71,24 +73,45 @@ func main() {
 	}
 	time.Sleep(time.Millisecond * 10)
 
-	c := make(chan int)
+	c := make(chan models.Condenders)
 
 	for i := 0; i < 5; i++ {
 		batlle := &models.Battle{ID: i}
 		go batlle.Sparring(c)
 	}
 
-	time.Sleep(time.Millisecond * 1000)
+	fmt.Println("processing")
 
-	for i := 0; i < 5; i++ {
-		c <- rand.Int()
-		time.Sleep(time.Millisecond * 500)
+	time.Sleep(time.Millisecond * 3000)
+
+	for i := 0; i < 6; i++ {
+		songoku.Strength = rand.Int()
+		krilin.Strength = rand.Int()
+		select {
+		case c <- models.Condenders{FirstFighter: songoku, SecondFighter: krilin}:
+			// case k := <-time.After(time.Millisecond * 6000):
+			// 	fmt.Println("timed out", k)
+		default:
+			fmt.Printf("worker %[1]d dropped \n", i)
+		}
+
 	}
+	time.Sleep(time.Millisecond * 1500)
+	fmt.Println("exit")
+}
+
+func after(d time.Duration) chan bool {
+	c := make(chan bool)
+	go func() {
+		time.Sleep(d)
+		c <- true
+	}()
+	return c
 }
 
 func incr() {
 	lock.Lock()
 	defer lock.Unlock()
 	counter++
-	fmt.Println(counter)
+	//fmt.Println(counter)
 }
