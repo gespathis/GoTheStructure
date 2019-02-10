@@ -15,7 +15,31 @@ var (
 	lock    sync.Mutex
 )
 
+type testValue struct {
+	name string
+	age  int
+}
+
+func (t testValue) ChangeName() {
+	t.name = "makis"
+}
+
+func (t *testValue) ChangeNamePointer() {
+	t.name = "makis"
+}
+
 func main() {
+
+	test1 := testValue{
+		name: "spathis",
+		age:  39}
+
+	test1.ChangeName()
+
+	fmt.Println(test1)
+
+	test1.ChangeNamePointer()
+	fmt.Println(test1)
 
 	songoku := &models.Person{Human: new(models.Human), Saiyan: new(models.Saiyan)}
 	songoku.Logger = new(logers.ConsoleLogger)
