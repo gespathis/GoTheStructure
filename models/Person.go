@@ -1,7 +1,7 @@
 package models
 
 import (
-	"GoTheStructure/public"
+	"structure/public"
 )
 
 // Person  test

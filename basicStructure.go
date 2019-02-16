@@ -1,11 +1,11 @@
 package main
 
 import (
-	"GoTheStructure/logers"
-	"GoTheStructure/models"
 	"fmt"
 	"math/rand"
 	"sort"
+	"structure/logers"
+	"structure/models"
 	"sync"
 	"time"
 )
@@ -42,7 +42,7 @@ func main() {
 	fmt.Println(test1)
 
 	songoku := &models.Person{Human: new(models.Human), Saiyan: new(models.Saiyan)}
-	krilin := &models.Person{Human: new(models.Human), Saiyan: new(models.Saiyan)}
+	krilin := &models.Person{Human: &models.Human{}, Saiyan: new(models.Saiyan)}
 	songoku.Logger = new(logers.ConsoleLogger)
 
 	var result bool
